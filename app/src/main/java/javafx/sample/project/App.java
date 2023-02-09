@@ -3,12 +3,25 @@
  */
 package javafx.sample.project;
 
-public class App {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+public class App extends Application {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Application.launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Label l = new Label("Hello"); // this is just a text i guess
+        Scene s = new Scene(l);
+        primaryStage.setScene(s); // set scene to the primary stage
+        primaryStage.show(); // performs actual rendering
     }
 }
