@@ -5,7 +5,12 @@ package javafx.sample.project;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -19,9 +24,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Label l = new Label("Hello"); // this is just a text i guess
-        Scene s = new Scene(l);
-        primaryStage.setScene(s); // set scene to the primary stage
-        primaryStage.show(); // performs actual rendering
+        ScrollPane pane = new ScrollPane(); // ScrollPane is a Node (prop)
+        VBox box = new VBox(); // Vertical Box is another Node 
+        TextField input = new TextField(); // text box
+        Button button = new Button("Sex"); // button
+        AnchorPane root = new AnchorPane(); // root node (main prop)
+        Scene scene = new Scene(root); // set root as root node of scene
+
+        pane.setContent(box); // set vertical box as content of scroll box
+        root.getChildren().addAll(pane, input, button); // add sub-nodes as children of root node (We have a tree!)
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
