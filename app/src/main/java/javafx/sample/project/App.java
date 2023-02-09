@@ -3,12 +3,19 @@
  */
 package javafx.sample.project;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -25,7 +32,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         ScrollPane scrollPane = new ScrollPane(); // ScrollPane is a Node (prop)
-        VBox box = new VBox(); // Vertical Box is another Node 
+        VBox dialogBox = new VBox(); // Vertical Box is another Node 
         TextField input = new TextField(); // text box
         Button button = new Button("Sex"); // button defaults to (0,0) position (top left)
         AnchorPane anchorPane = new AnchorPane(); // This is the Scene!
@@ -34,10 +41,28 @@ public class App extends Application {
         anchorPane.getChildren().addAll(scrollPane, input, button); // add nodes as children to scene (We have a tree!)
         configurePrimaryStage(primaryStage); // configuring this makes launch window 600x600
         configureAnchorPane(anchorPane, scrollPane, button, input);
-        configureScrollPane(scrollPane, box);
+        configureScrollPane(scrollPane, dialogBox);
+        configureButton(button, dialogBox, input);
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void configureButton(Button button, VBox dialogBox, TextField input) {
+        EventHandler<Event> f = e -> {
+            dialogBox.getChildren().add(new Label(input.getText()));
+            input.clear();
+        };
+
+        EventHandler<ActionEvent> g = e -> {
+            dialogBox.getChildren().add(new Label(input.getText()));
+            input.clear();
+        };
+
+        button.setOnMouseClicked(f);
+
+        // This method does not accept EventHandler<Event>, where SECS?
+        button.setOnAction(g);
     }
 
     private void configurePrimaryStage(Stage primaryStage) {
