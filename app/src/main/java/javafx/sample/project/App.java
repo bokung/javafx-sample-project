@@ -24,16 +24,52 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ScrollPane pane = new ScrollPane(); // ScrollPane is a Node (prop)
+        ScrollPane scrollPane = new ScrollPane(); // ScrollPane is a Node (prop)
         VBox box = new VBox(); // Vertical Box is another Node 
         TextField input = new TextField(); // text box
-        Button button = new Button("Sex"); // button
-        AnchorPane root = new AnchorPane(); // root node (main prop)
-        Scene scene = new Scene(root); // set root as root node of scene
+        Button button = new Button("Sex"); // button defaults to (0,0) position (top left)
+        AnchorPane anchorPane = new AnchorPane(); // This is the Scene!
+        Scene scene = new Scene(anchorPane); // set root as root node of scene
 
-        pane.setContent(box); // set vertical box as content of scroll box
-        root.getChildren().addAll(pane, input, button); // add sub-nodes as children of root node (We have a tree!)
+        anchorPane.getChildren().addAll(scrollPane, input, button); // add nodes as children to scene (We have a tree!)
+        configurePrimaryStage(primaryStage); // configuring this makes launch window 600x600
+        configureAnchorPane(anchorPane, scrollPane, button, input);
+        configureScrollPane(scrollPane, box);
+
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void configurePrimaryStage(Stage primaryStage) {
+        primaryStage.setTitle("Sex");
+        primaryStage.setMinHeight(600); // in pixels probably? Documentation not clear?
+        primaryStage.setMinWidth(600); // square
+    }
+
+    /**
+     * Configures the root node
+     */
+    private void configureAnchorPane(AnchorPane root, ScrollPane scrollPane, Button button, TextField input) {
+        root.setPrefSize(400, 600);
+
+        // Static methods because a stage can have only 1 scene (AnchorPane is a scene, not a node!)
+        AnchorPane.setTopAnchor(scrollPane, 0.0); // put scroll box on top
+
+        // combination of both is putting button in bottom right!
+        AnchorPane.setBottomAnchor(button, 0.0); // put button at the bottom
+        AnchorPane.setRightAnchor(button, 0.0); // put buttom on the right
+
+        // combination of both is putting in bottom left!
+        AnchorPane.setBottomAnchor(input, 0.0); // put input box in bottom
+        AnchorPane.setLeftAnchor(input, 0.0); // put input box in left
+    }
+
+    private void configureScrollPane(ScrollPane scrollPane, VBox box) {
+        scrollPane.setContent(box); // set vertical box as content of scroll box
+        scrollPane.setPrefSize(385, 535);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVvalue(1.0);
+        scrollPane.setFitToWidth(true);
     }
 }
