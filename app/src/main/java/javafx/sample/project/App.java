@@ -3,9 +3,6 @@
  */
 package javafx.sample.project;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -15,15 +12,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+
+    private Image userPic = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
+    private Image dukePic = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -50,19 +48,32 @@ public class App extends Application {
 
     private void configureButton(Button button, VBox dialogBox, TextField input) {
         EventHandler<Event> f = e -> {
-            dialogBox.getChildren().add(new Label(input.getText()));
-            input.clear();
+            handleUserInput(input, dialogBox);
         };
 
         EventHandler<ActionEvent> g = e -> {
-            dialogBox.getChildren().add(new Label(input.getText()));
-            input.clear();
+            handleUserInput(input, dialogBox);
         };
 
         button.setOnMouseClicked(f);
 
         // This method does not accept EventHandler<Event>, where SECS?
         button.setOnAction(g);
+    }
+
+    private void handleUserInput(TextField input, VBox dialogBox) {
+        String inputString = input.getText();
+        Label userText = new Label(inputString);
+        DialogBox userBox = new DialogBox(userText, new ImageView(userPic));
+        Label dukeText = new Label(getResponse(inputString));
+        DialogBox dukeBox = new DialogBox(dukeText, new ImageView(dukePic));
+
+        dialogBox.getChildren().addAll(userBox, dukeBox);
+        input.clear();
+    }
+
+    private String getResponse(String input) {
+        return "Sex sex " + input;
     }
 
     private void configurePrimaryStage(Stage primaryStage) {
