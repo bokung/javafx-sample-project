@@ -63,10 +63,8 @@ public class App extends Application {
 
     private void handleUserInput(TextField input, VBox dialogBox) {
         String inputString = input.getText();
-        Label userText = new Label(inputString);
-        DialogBox userBox = DialogBox.getUserDialogBox(userText, new ImageView(userPic));
-        Label dukeText = new Label(getResponse(inputString));
-        DialogBox dukeBox = DialogBox.getDukeDialogBox(dukeText, new ImageView(dukePic));
+        DialogBox userBox = DialogBox.getUserDialogBox(inputString, userPic);
+        DialogBox dukeBox = DialogBox.getDukeDialogBox(getResponse(inputString), dukePic);
 
         dialogBox.getChildren().addAll(userBox, dukeBox);
         input.clear();
